@@ -1,0 +1,17 @@
+body {
+    background:#ef4136;
+    font-family:Helvetica,Arial,sans-serif;
+    font-size:14px;
+    color:#434343;
+}
+#wrapper{
+    width:90%;
+    max-width:800px;
+    margin:0 auto;
+    padding:20px;
+    background:#fff;
+}
+.lecarte{
+    width:100%;
+    height:500px;
+}
