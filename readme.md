@@ -1,4 +1,4 @@
-# Hatchling Map: Le Carte
+# Hatchling Map
 ### A *hatchdling* jQuery plugin for Google Map functionality
 
 The core functionality of this plugin provides useful Google Map wrappers with
@@ -11,8 +11,8 @@ developers to easily style many elements directly through CSS.
 ## Getting Started
 Download the [production version][min] or the [development version][max].
 
-[min]: https://raw.github.com/hatchddigital/jquery.lecarte/master/dist/hatchling.map.min.js
-[max]: https://raw.github.com/hatchddigital/jquery.lecarte/master/dist/hatchling.map.js
+[min]: https://raw.github.com/hatchddigital/hatchling.map/master/dist/hatchling.map.min.js
+[max]: https://raw.github.com/hatchddigital/hatchling.map/master/dist/hatchling.map.js
 
 Include file within your project through HTML (or preferably a single JS file)
 with minification.
@@ -27,19 +27,19 @@ this element REQUIRES a height and width set for Google Maps to function
 correctly.
 
 You may also apply the address or geo co-ordinates directly to the element as
-data- elements to provid a non-JS required implementation of Le Carte.
+data- elements to provid a non-JS required implementation of the Map.
 
 ```html
 <script src="jquery.js"></script>
 <script src="dist/hatchling.map.min.js"></script>
 ...
-<div class="lecarte" data-address="100 Hatchd Street, Perth"></div>
+<div class="map" data-address="100 Hatchd Street, Perth"></div>
 ```
 
 ```javascript
 <script>
 jQuery(function($) {
-  $('.lecarte').lecarte();
+  $('.map').map();
 });
 </script>
 ```
@@ -48,8 +48,5 @@ jQuery(function($) {
 Hatchd Digital <http://hatchd.com.au>
 Jimmy Hillis <jimmy@hatchd.com.au>
 
-## Examples
-_(Coming soon)_
-
 ## Release History
-_(Nothing yet)_
+v2.0.0 Updated version with Grunt support
