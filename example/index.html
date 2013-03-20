@@ -1,0 +1,48 @@
+<html>
+<head>
+    <title>Hatchling: Slide</title>
+    <link rel="stylesheet" href="styles.css" media="screen" />
+</head>
+<body>
+
+    <div class="wrapper">
+
+        <hgroup>
+            <h1>MAP</h1>
+            <h2>A <em>hatchdling</em> jQuery plugin for mapping functionality</h2>
+        </hgroup>
+
+        <section class="examples">
+            <div id="map" class="hatchling-map">
+
+            </div>
+        </section>
+
+    </div>
+
+    <script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/src/infobox.js"></script>
+    <script src="../libs/jquery/jquery.js"></script>
+    <script src="../dist/hatchling.map.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            // Initalize map plugin
+            var map = $('.hatchling-map').map({
+                    'latitude': -31.999069,
+                    'longitude': 115.916510,
+                    'zoom': 9
+                });
+            // Add pins to map
+            var point = new google.maps.LatLng(-31.999069, 115.916510);
+            var description = 'Whatever man';
+            var icon = new google.maps.MarkerImage(
+                "icon.png",
+                new google.maps.Size(64, 64),
+                null, null,
+                new google.maps.Size(32, 32));
+            map.addMarker(point, 'Pin number one', 'pin-one', icon, description);
+        });
+    </script>
+
+</body>
+</html>
