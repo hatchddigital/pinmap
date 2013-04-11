@@ -1,4 +1,4 @@
-# Hatchling Map
+# Hatchling PinMap
 ### A *hatchdling* jQuery plugin for Google Map functionality
 
 The core functionality of this plugin provides useful Google Map wrappers with
@@ -11,8 +11,8 @@ developers to easily style many elements directly through CSS.
 ## Getting Started
 Download the [production version][min] or the [development version][max].
 
-[min]: https://raw.github.com/hatchddigital/hatchling.map/master/dist/hatchling.map.min.js
-[max]: https://raw.github.com/hatchddigital/hatchling.map/master/dist/hatchling.map.js
+[min]: https://raw.github.com/hatchddigital/hatchling.pinmap/master/dist/hatchling.pinmap.min.js
+[max]: https://raw.github.com/hatchddigital/hatchling.pinmap/master/dist/hatchling.pinmap.js
 
 Include file within your project through HTML (or preferably a single JS file)
 with minification.
@@ -31,15 +31,15 @@ data- elements to provid a non-JS required implementation of the Map.
 
 ```html
 <script src="jquery.js"></script>
-<script src="dist/hatchling.map.min.js"></script>
+<script src="dist/hatchling.pinmap.min.js"></script>
 ...
-<div class="map" data-address="100 Hatchd Street, Perth"></div>
+<div class="pinmap" data-address="100 Hatchd Street, Perth"></div>
 ```
 
 ```javascript
 <script>
 jQuery(function($) {
-  $('.map').map();
+  $('.pinmap').pinmap();
 });
 </script>
 ```
@@ -49,4 +49,5 @@ Hatchd Digital <http://hatchd.com.au>
 Jimmy Hillis <jimmy@hatchd.com.au>
 
 ## Release History
+v2.1.0 Renamed the project and code to be Pinmap to fix a conflict with jQuery
 v2.0.0 Updated version with Grunt support
