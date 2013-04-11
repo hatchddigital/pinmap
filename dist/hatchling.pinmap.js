@@ -1,63 +1,19 @@
-/**
- * HATCHD DIGITAL MAP HATCHLING for Google Maps API v3
- *
- * This code has been developed in house at HATCHD DIGITAL.
- * @see http://hatchd.com.au
- *
- * FOR DEVELOPERS:
- *
- * ALL external libraries and should be imported here, using a buildout
- * application e.g. CodeKit. This vesion of the file should be pretty,
- * well formatted, and only contain code that is unique to your OWN app.
- * Your site should always use /app-min.js when loading, which contains
- * a minified version of this script prepended with all external scripts.
- *
- * REQUIRED FRAMEWORKS
- *
- * @required jquery (v1.7.0+)
- *
- * CODE IMPORTS
- *
- * @codekit-prepend "google.maps.infobox.js";
- *
- * VALIDATION
- *
- * All code must validate with JSHint (http://www.jshint.com/) to be launched
- * within a LIVE web application. NO debug code should remain in your final
- * versions e.g. remove EVERY reference to window.console.log().
- *
- * STYLE
- *
- * All code should be within 79 characters WIDE to meet standard Hatchd
- * protocol. Reformat code cleanly to fit within this tool.
- *
-    jshint = {
-        "laxcomma": true,
-        "laxbreak": true,
-        "browser": true
-    }
- *
- * HATCHDLING MAP MODULE
- *
- * This set of code allows us to manage Mapping functionality using Google
- * Maps to add/remove/hide and play with icons and boxes in an easily-styled
- * and pretty way.
- *
- * @author Jimmy Hillis <jimmy@hatchd.com.au>
- * @see http://hatchd.com.au
- *
- */
+/*! Hatchling Map - v2.1.0 - 2013-04-11
+* https://github.com/hatchddigital/jquery.lecarte
+* Copyright (c) 2013 Hatchd Digital; Licensed MIT */
+
+/* global google, InfoBox */
+/* jshint laxcomma: true, laxbreak: true, camelcase: false */
 
 (function($) {
-    "use strict";
-    /*global google:true, InfoBox:true*/
+    'use strict';
 
     /**
      * Attaches our  Google Map to an element in the DOM
      * and puts the default markers into the system ready for dealing
      * with moving around the page
      */
-    var Map = function (element, options) {
+    var PinMap = function (element, options) {
 
         // Preset default options
         options = $.extend({
@@ -102,7 +58,7 @@
      * Puts a pin on the map with the provided details. Returns the
      * Google Map object for chaining.
      */
-    Map.prototype.addMarker = function (location, title, id, marker_icon,
+    PinMap.prototype.addMarker = function (location, title, id, marker_icon,
                                           description, type) {
         var marker = new google.maps.Marker({
                 position: location,
@@ -128,7 +84,7 @@
      * Center the map on specified marker. Usually will be attached to a JS
      * user event (like a click) passing the ID or title
      */
-    Map.prototype.centerOnMarker = function (settings) {
+    PinMap.prototype.centerOnMarker = function (settings) {
         var search_id = settings.id || false
           , search_title = settings.title || false
           , zoom = settings.zoom || false
@@ -157,7 +113,7 @@
      * Toggle visibility of a specific type (or all) markers
      * on currently on the map.
      */
-    Map.prototype.toggleMarkers = function (settings) {
+    PinMap.prototype.toggleMarkers = function (settings) {
         var type = settings.type || false
           , action = settings.action || false;
         $.each(this.available_markers, function(index, marker) {
@@ -181,7 +137,7 @@
      * @param {object} options Key/pair options to be use on a Google Map
      *                         as described http://goo.gl/PwWXs
      */
-    $.fn.map = function(options) {
+    $.fn.pinmap = function(options) {
         options = options || {};
         this.each(function() {
             var $this = $(this)
