@@ -187,7 +187,7 @@
                               $this.attr('data-address') : false);
             // If we can't find an existing map, create and store
             if (!map) {
-                $this.data('map', (map = new Map(this, options)));
+                $this.data('map', (map = new PinMap(this, options)));
             }
             // Geocode the address, and create the map
             if (address) {
@@ -208,5 +208,7 @@
             return $(this).data('map');
         }
     };
+
+    window.PinMap = PinMap;
 
 }(window.jQuery));
