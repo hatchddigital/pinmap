@@ -1,6 +1,6 @@
 {
-  "name": "hatchling.map",
-  "version": "2.0.0",
+  "name": "hatchling.pinmap",
+  "version": "2.1.0",
   "engines": {
     "node": ">= 0.6.0"
   },

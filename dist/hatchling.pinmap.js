@@ -1,17 +1,19 @@
-/*! Hatchling Map - v2.0.0 - 2013-03-26
+/*! Hatchling Map - v2.1.0 - 2013-04-12
 * https://github.com/hatchddigital/jquery.lecarte
-* Copyright (c) 2013 Jimmy Hillis; Licensed MIT */
+* Copyright (c) 2013 Hatchd Digital; Licensed MIT */
 
-window.Map = (function($) {
-    "use strict";
-    /*global google:true, InfoBox:true*/
+/* global google, InfoBox */
+/* jshint laxcomma: true, laxbreak: true, camelcase: false */
+
+(function($) {
+    'use strict';
 
     /**
      * Attaches our  Google Map to an element in the DOM
      * and puts the default markers into the system ready for dealing
      * with moving around the page
      */
-    var Map = function (element, options) {
+    var PinMap = function (element, options) {
 
         // Preset default options
         options = $.extend({
@@ -59,7 +61,7 @@ window.Map = (function($) {
      * Puts a pin on the map with the provided details. Returns the
      * Google Map object for chaining.
      */
-    Map.prototype.addMarker = function (location, title, id, marker_icon,
+    PinMap.prototype.addMarker = function (location, title, id, marker_icon,
                                           description, type) {
         var marker = new google.maps.Marker({
                 position: location,
@@ -90,7 +92,7 @@ window.Map = (function($) {
      * Center the map on specified marker. Usually will be attached to a JS
      * user event (like a click) passing the ID or title
      */
-    Map.prototype.centerOnMarker = function (settings) {
+    PinMap.prototype.centerOnMarker = function (settings) {
         var search_id = settings.id || false
           , search_title = settings.title || false
           , zoom = settings.zoom || false
@@ -119,7 +121,7 @@ window.Map = (function($) {
      * Toggle visibility of a specific type (or all) markers
      * on currently on the map.
      */
-    Map.prototype.toggleMarkers = function (settings) {
+    PinMap.prototype.toggleMarkers = function (settings) {
         var type = settings.type || false
           , action = settings.action || false;
         $.each(this.available_markers, function(index, marker) {
@@ -143,7 +145,7 @@ window.Map = (function($) {
      * @param {object} options Key/pair options to be use on a Google Map
      *                         as described http://goo.gl/PwWXs
      */
-    $.fn.map = function(options) {
+    $.fn.pinmap = function(options) {
         options = options || {};
         this.each(function() {
             var $this = $(this)
@@ -153,7 +155,7 @@ window.Map = (function($) {
                               $this.attr('data-address') : false);
             // If we can't find an existing map, create and store
             if (!map) {
-                $this.data('map', (map = new Map(this, options)));
+                $this.data('map', (map = new PinMap(this, options)));
             }
             // Geocode the address, and create the map
             if (address) {
@@ -175,6 +177,6 @@ window.Map = (function($) {
         }
     };
 
-    return Map;
+    window.PinMap = PinMap;
 
 }(window.jQuery));
