@@ -1,8 +1,8 @@
-/*! Hatchling Map - v2.0.0 - 2013-03-20
+/*! Hatchling Map - v2.0.0 - 2013-03-26
 * https://github.com/hatchddigital/jquery.lecarte
 * Copyright (c) 2013 Jimmy Hillis; Licensed MIT */
 
-(function($) {
+window.Map = (function($) {
     "use strict";
     /*global google:true, InfoBox:true*/
 
@@ -16,7 +16,10 @@
         // Preset default options
         options = $.extend({
             latitude: -31.95391,
-            longitude:  115.858512
+            longitude:  115.858512,
+            popup_close_icon: null,
+            popup_close_margin: '0px',
+            popup_offset: new google.maps.Size(60, 100)
         }, options);
 
         // An element MUST be provided to attach the Google Map into the DOM
@@ -44,9 +47,9 @@
         // Single info window
         this.infowindow = new InfoBox({
             alignBottom: true,
-            pixelOffset: new google.maps.Size(60, 100),
-            closeBoxURL: 'images/map-close.png',
-            closeBoxMargin: '10px',
+            pixelOffset: options.popup_offset,
+            closeBoxURL: options.popup_close_icon,
+            closeBoxMargin: options.popup_close_margin,
             infoBoxClearance: new google.maps.Size(40, 40)
         });
         return this;
@@ -76,6 +79,11 @@
             marker.infowindow.setContent(marker.description);
             marker.infowindow.open(marker.map, marker);
         });
+    };
+
+    Map.prototype.panTo = function(location) {
+        this.google_map.panTo(location);
+        this.google_map.setZoom(12);
     };
 
     /**
@@ -166,5 +174,7 @@
             return $(this).data('map');
         }
     };
+
+    return Map;
 
 }(window.jQuery));
