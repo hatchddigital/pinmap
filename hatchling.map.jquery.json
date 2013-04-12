@@ -2,7 +2,7 @@
   "name": "hatchling.pinmap",
   "title": "Hatchling Map",
   "description": "A Google Map wrapper for displaying animations, icons, and poups within a browser displayed Google Map.",
-  "version": "2.1.0",
+  "version": "2.1.3",
   "homepage": "https://github.com/hatchddigital/jquery.lecarte",
   "author": {
     "name": "Hatchd Digital",
