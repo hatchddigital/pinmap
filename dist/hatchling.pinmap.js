@@ -1,4 +1,4 @@
-/*! Hatchling Map - v2.1.0 - 2013-04-12
+/*! Hatchling Map - v2.1.3 - 2013-04-12
 * https://github.com/hatchddigital/jquery.lecarte
 * Copyright (c) 2013 Hatchd Digital; Licensed MIT */
 
@@ -83,7 +83,7 @@
         });
     };
 
-    Map.prototype.panTo = function(location) {
+    PinMap.prototype.panTo = function(location) {
         this.google_map.panTo(location);
         this.google_map.setZoom(12);
     };

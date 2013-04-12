@@ -124,7 +124,7 @@
         });
     };
 
-    Map.prototype.panTo = function(location) {
+    PinMap.prototype.panTo = function(location) {
         this.google_map.panTo(location);
         this.google_map.setZoom(12);
     };
