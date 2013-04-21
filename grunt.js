@@ -1,9 +1,10 @@
 /*global module:false*/
 module.exports = function(grunt) {
+  'use strict';
 
   // Project configuration.
   grunt.initConfig({
-    pkg: '<json:hatchling.map.jquery.json>',
+    pkg: '<json:pinmap.jquery.json>',
     meta: {
       banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
         '<%= grunt.template.today("yyyy-mm-dd") %>\n' +

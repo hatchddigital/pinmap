@@ -186,36 +186,36 @@
      * @param {object} options Key/pair options to be use on a Google Map
      *                         as described http://goo.gl/PwWXs
      */
-    $.fn.pinmap = function(options) {
+    $.fn.pinmap = function(options, callback) {
         options = options || {};
+        callback = typeof callback === 'function' ? callback : false;
         this.each(function() {
             var $this = $(this)
               , geocoder = new google.maps.Geocoder()
-              , map = $this.data('map')
+              , pinmap = $this.data('pinmap')
               , address = (($this.attr('data-address') !== undefined) ?
                               $this.attr('data-address') : false);
             // If we can't find an existing map, create and store
-            if (!map) {
-                $this.data('map', (map = new PinMap(this, options)));
+            if (!pinmap) {
+                $this.data('pinmap', (pinmap = new PinMap(this, options)));
             }
-            // Geocode the address, and create the map
+            // Geocode the address, and create the pinmap
             if (address) {
                 geocoder.geocode( {'address': address }, function (results, status) {
-                    if (status === google.maps.GeocoderStatus.OK) {
-                        if (status !== google.maps.GeocoderStatus.ZERO_RESULTS) {
-                            map.google_map.panTo(results[0].geometry.location);
-                            if (options.addPin) {
-                                map.addMarker(results[0].geometry.location, address);
-                            }
+                    var location;
+                    if (status !== google.maps.GeocoderStatus.ZERO_RESULTS) {
+                        location = results[0].geometry.location;
+                        pinmap.google_map.panTo(location);
+                        if (options.addPin) {
+                            pinmap.addMarker(location, address);
                         }
                     }
                 });
             }
+            if (callback) {
+                callback.call(this, pinmap);
+            }
         });
-        // Single map attach return the created object
-        if (this.length === 1) {
-            return $(this).data('map');
-        }
     };
 
     window.PinMap = PinMap;

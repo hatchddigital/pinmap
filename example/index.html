@@ -27,20 +27,21 @@
     <script type="text/javascript">
         $(document).ready(function() {
             // Initalize map plugin
-            var pinmap = $('.hatchling-map').pinmap({
+            pinmap = $('.hatchling-map').pinmap({
                     'latitude': -31.999069,
                     'longitude': 115.916510,
                     'zoom': 9
+                }, function (pinmap) {
+                    // Add pins to map
+                    var point = new google.maps.LatLng(-31.999069, 115.916510);
+                    var description = 'Whatever man';
+                    var icon = new google.maps.MarkerImage(
+                        "icon.png",
+                        new google.maps.Size(64, 64),
+                        null, null,
+                        new google.maps.Size(32, 32));
+                    pinmap.addMarker(point, 'Pin number one', 'pin-one', icon, description);
                 });
-            // Add pins to map
-            var point = new google.maps.LatLng(-31.999069, 115.916510);
-            var description = 'Whatever man';
-            var icon = new google.maps.MarkerImage(
-                "icon.png",
-                new google.maps.Size(64, 64),
-                null, null,
-                new google.maps.Size(32, 32));
-            pinmap.addMarker(point, 'Pin number one', 'pin-one', icon, description);
         });
     </script>
 
