@@ -44,10 +44,49 @@ jQuery(function($) {
 </script>
 ```
 
-## Credits
+## Popup example
+
+The library now allows users to develop their own popup modules to use within
+this projects to increase the customization required. For popup support you
+must provide an object with the following methods:
+
+-- open:: Shows the popup on the screen
+-- setContent:: Sets the content to a provided string
+-- getContent:: Returns the current content of the popup as provided by set
+
+Support exists for InfoBox which was the previously used popup object.
+
+### InfoBox
+To use Google Maps Utility InfoBox all that is require is for you to include
+the library within your code (see: https://code.google.com/p/google-maps-utility-library-v3/)
+and initialize in the following way:
+
+```javascript
+<script>
+var popup = new InfoBox({
+    alignBottom: true,
+    infoBoxClearance: new google.maps.Size(40, 40)
+});
+jQuery(function($) {
+  $('.pinmap').pinmap({
+    'popup': popup
+  });
+});
+</script>
+```
+
+This will allow you to use InfoBox exactly the same previous versions without
+the fake
+
+## Credits + Contributors
 Hatchd Digital <http://hatchd.com.au>
 Jimmy Hillis <jimmy@hatchd.com.au>
+Niaal Holder <niaal@hatchd.com.au>
 
 ## Release History
+v2.2.0 Removed InfoBox functionality. All pinmap usage requires you to pass
+  your own popup now which allows us to remove all external dependencies.
+  Examples using InfoBox are now provided within the documentation to continue
+  working the same as before.
 v2.1.0 Renamed the project and code to be Pinmap to fix a conflict with jQuery
 v2.0.0 Updated version with Grunt support

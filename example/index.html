@@ -13,9 +13,7 @@
         </hgroup>
 
         <section class="examples">
-            <div id="pinmap" class="hatchling-map">
-
-            </div>
+            <div class="pinmap"></div>
         </section>
 
     </div>
@@ -23,14 +21,16 @@
     <script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
     <script src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/src/infobox.js"></script>
     <script src="../libs/jquery/jquery.js"></script>
-    <script src="../dist/hatchling.pinmap.min.js"></script>
+    <script src="../dist/pinmap.js"></script>
+    <script src="../src/pinmap.popup-slider.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             // Initalize map plugin
-            pinmap = $('.hatchling-map').pinmap({
+            $('.pinmap').pinmap({
                     'latitude': -31.999069,
                     'longitude': 115.916510,
-                    'zoom': 9
+                    'zoom': 9,
+                    'popup': new PopupSlider($('.pinmap'))
                 }, function (pinmap) {
                     // Add pins to map
                     var point = new google.maps.LatLng(-31.999069, 115.916510);
