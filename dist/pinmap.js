@@ -1,4 +1,4 @@
-/*! Pinmap - v2.1.4 - 2013-04-22
+/*! Pinmap - v2.2.0 - 2013-04-22
 * https://github.com/hatchddigital/pinmap
 * Copyright (c) 2013 Hatchd Digital; Licensed MIT */
 
@@ -65,7 +65,7 @@
      * Google Map object for chaining.
      */
     PinMap.prototype.addMarker = function (location, title, id, marker_icon,
-                                          description, type) {
+                                           description, type) {
         var pinmap = this,
             marker = new google.maps.Marker({
                 position: location,
