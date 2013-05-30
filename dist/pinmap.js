@@ -1,12 +1,22 @@
-/*! Pinmap - v2.2.0 - 2013-04-22
+/*! Pinmap - v2.2.1 - 2013-05-30
 * https://github.com/hatchddigital/pinmap
 * Copyright (c) 2013 Hatchd Digital; Licensed MIT */
 
-/* global google */
+/* global google, define */
 /* jshint laxcomma: true, laxbreak: true, camelcase: false */
 
-(function($) {
-    'use strict';
+(function (factory) {
+
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(['jquery'], factory);
+    }
+    else {
+        // Browser globals
+        factory(jQuery);
+    }
+
+}(function ($) {
 
     /**
      * Attaches our  Google Map to an element in the DOM
@@ -211,4 +221,4 @@
 
     window.PinMap = PinMap;
 
-}(window.jQuery));
+}));

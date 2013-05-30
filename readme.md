@@ -84,6 +84,7 @@ Jimmy Hillis <jimmy@hatchd.com.au>
 Niaal Holder <niaal@hatchd.com.au>
 
 ## Release History
+v2.2.1 Added support for requireJS and AMD loading.
 v2.2.0 Removed InfoBox functionality. All pinmap usage requires you to pass
   your own popup now which allows us to remove all external dependencies.
   Examples using InfoBox are now provided within the documentation to continue

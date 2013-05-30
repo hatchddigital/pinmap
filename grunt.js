@@ -52,7 +52,8 @@ module.exports = function(grunt) {
       globals: {
         jQuery: true,
         google: true,
-        InfoBox: true
+        InfoBox: true,
+        define: true
       }
     },
     uglify: {}
