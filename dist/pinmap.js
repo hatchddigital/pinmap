@@ -1,4 +1,4 @@
-/*! Pinmap - v2.2.2 - 2013-06-04
+/*! Pinmap - v2.2.3 - 2013-06-04
 * https://github.com/hatchddigital/pinmap
 * Copyright (c) 2013 Hatchd Digital; Licensed MIT */
 
@@ -147,13 +147,8 @@
         $.each(this.available_markers, function(index, marker) {
             if (marker.title === search_title || marker.id === search_id) {
                 pinmap.panTo(marker.position);
-                if (pinmap.popup &&
-                        pinmap.popup.getContent() !== marker.description) {
-                    pinmap.popup.setContent(marker.description);
-                    pinmap.popup.open(marker.map, marker, pinmap);
-                    if (zoom) {
-                        pinmap.google_map.setZoom(zoom);
-                    }
+                if (zoom) {
+                    pinmap.google_map.setZoom(zoom);
                 }
             }
         });
