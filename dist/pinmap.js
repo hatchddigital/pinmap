@@ -1,4 +1,4 @@
-/*! Pinmap - v2.2.1 - 2013-05-30
+/*! Pinmap - v2.2.2 - 2013-06-04
 * https://github.com/hatchddigital/pinmap
 * Copyright (c) 2013 Hatchd Digital; Licensed MIT */
 
@@ -219,6 +219,6 @@
         });
     };
 
-    window.PinMap = PinMap;
+    return PinMap;
 
 }));

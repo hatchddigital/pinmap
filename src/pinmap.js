@@ -257,6 +257,6 @@
         });
     };
 
-    window.PinMap = PinMap;
+    return PinMap;
 
 }));
