@@ -84,6 +84,9 @@ Jimmy Hillis <jimmy@hatchd.com.au>
 Niaal Holder <niaal@hatchd.com.au>
 
 ## Release History
+v2.2.4 New features include:
+- locateUser method for geo-encoding the current user and providing a callback support.
+- Added buildDirectionsUrl to provide URLs for native mapping apps or browser based fallback
 v2.2.3 Fix bug with centerOnMarker that stopped the zoom property from working
 v2.2.2 Return PinMap object for requreJS AMD loading.
 v2.2.1 Added support for requireJS and AMD loading.

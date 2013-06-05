@@ -210,6 +210,83 @@
     };
 
     /**
+     * Locate the current user, where possible and center the map
+     * on their position.
+     *
+     * Options include:
+     * > Pan: if True then pan map to the user's current location
+     * > Marker: if True add a marker ar user's current location
+     * > Icon: if Marker is True use provided image URL as icon for user's
+     *         current location
+     *
+     * @return {null}
+     */
+    PinMap.prototype.locateUser = function (options, callback) {
+        var that = this;
+        options = $.extend({
+            'pan': true,
+            'marker': true,
+            'icon': null
+        }, options);
+        callback = callback || false;
+        if ('geolocation' in navigator) {
+            navigator.geolocation.getCurrentPosition(function (location) {
+                if (options.pan) {
+                    that.user_coordinates = new google.maps.LatLng(
+                        location.coords.latitude, location.coords.longitude);
+                    that.panTo(that.user_coordinates);
+                }
+                if (options.marker) {
+                    that.addMarker(that.user_coordinates, 'Current Location',
+                                   null, options.icon);
+                }
+                if (callback) {
+                    callback(that.user_coordinates, that);
+                }
+            }, function (error) {
+                if (callback) {
+                    callback(false, that, error);
+                }
+            });
+        }
+        else {
+            if (callback) {
+                callback(false, that, 'Device does not support geolocation lookup.');
+            }
+        }
+    };
+
+    /**
+     * Return a URL which can be used by the current device to open
+     * a native map application (or Google maps) with directions mapped
+     * out between the provided points.
+     *
+     * Compatible devices include:
+     * - Desktop Chrome
+     * - Desktop Safari
+     * - Desktop Firefox
+     * - iOS Chrome
+     * - iOS Safari
+     * - Android Browser
+     * - Android Chrome
+     */
+
+    PinMap.prototype.buildDirectionsUrl = function (source, destination) {
+        var directions_url = 'http://maps.apple.com';
+        if (!source && !destination) {
+            return directions_url;
+        }
+        if (source && destination) {
+            directions_url = directions_url + '?saddr=' + encodeURIComponent(source);
+            directions_url = directions_url + '&daddr=' + encodeURIComponent(destination);
+        }
+        else {
+            directions_url = directions_url + '?saddr=' + encodeURIComponent(source || destination);
+        }
+        return directions_url;
+    };
+
+    /**
      * jQuery plugin to build Hatchling Maps on provided element blocks.
      *
      * > USAGE:

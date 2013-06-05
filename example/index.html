@@ -37,10 +37,25 @@
                     var description = 'Whatever man';
                     var icon = new google.maps.MarkerImage(
                         "icon.png",
-                        new google.maps.Size(64, 64),
+                        new google.maps.Size(32, 32),
                         null, null,
                         new google.maps.Size(32, 32));
                     pinmap.addMarker(point, 'Pin number one', 'pin-one', icon, description);
+                    // Get current user location
+                    pinmap.locateUser({ 'pan': true, 'marker': true }, function (loc, pinmap, error) {
+                        var destination, directions_url;
+                        if (loc) {
+                            var source = loc.lat() + ',' + loc.lng();
+                            var destination = 'Suite 1.10, The Old Swan Brewery, 171-173 Mounts Bay Road, Perth WA 6000';
+                            var directions_url = pinmap.buildDirectionsUrl(source, destination);
+                            $('.wrapper').append('<p><a taget="_blank" href="' + directions_url + '">Directions to Hatchd</a></p>');
+                        }
+                        else {
+                            console.log('There was an error: ' + error);
+                        }
+
+                    });
+
                 });
         });
     </script>
