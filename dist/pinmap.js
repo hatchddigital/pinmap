@@ -1,4 +1,4 @@
-/*! Pinmap - v2.2.4 - 2013-06-05
+/*! Pinmap - v2.2.5 - 2013-06-13
 * https://github.com/hatchddigital/pinmap
 * Copyright (c) 2013 Hatchd Digital; Licensed MIT */
 
@@ -6,6 +6,7 @@
 /* jshint laxcomma: true, laxbreak: true, camelcase: false */
 
 (function (factory) {
+    'use strict';
 
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
@@ -13,10 +14,11 @@
     }
     else {
         // Browser globals
-        factory(jQuery);
+        factory(window.jQuery);
     }
 
 }(function ($) {
+    'use strict';
 
     /**
      * Attaches our  Google Map to an element in the DOM
@@ -39,8 +41,6 @@
         }
 
         var
-        // Set local variable for access within helpers
-            pinmap = this,
         // Set options for the google map (see Maps API v3.)
             google_map_options = $.extend({
                 zoom: 11,
@@ -158,14 +158,15 @@
      * Toggle visibility of a specific type (or all) markers
      * on currently on the map.
      */
-    PinMap.prototype.toggleMarkers = function (settings) {
-        var type = settings.type || false
-          , action = settings.action || false;
+    PinMap.prototype.toggleMarkers = function (type, action) {
+        type = type || false;
         $.each(this.available_markers, function(index, marker) {
-            if (!type || marker.type === type) {
-                marker.setVisible(action);
-                if (!action && this.popup.getContent() === marker.description) {
-                    marker.popup.close();
+            if (type && marker.type === type) {
+                if (typeof action === 'boolean') {
+                    marker.setVisible(action);
+                }
+                else {
+                    marker.setVisible(!marker.visible);
                 }
             }
         });

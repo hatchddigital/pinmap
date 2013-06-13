@@ -84,6 +84,7 @@ Jimmy Hillis <jimmy@hatchd.com.au>
 Niaal Holder <niaal@hatchd.com.au>
 
 ## Release History
+v2.2.5 Update toggleMarker method, BREAKING changes for better controls
 v2.2.4 New features include:
 - locateUser method for geo-encoding the current user and providing a callback support.
 - Added buildDirectionsUrl to provide URLs for native mapping apps or browser based fallback

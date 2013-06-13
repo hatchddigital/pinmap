@@ -2,7 +2,7 @@
   "name": "pinmap",
   "title": "Pinmap",
   "description": "A Google Map wrapper for displaying animations, icons, and poups within a browser displayed Google Map.",
-  "version": "2.2.4",
+  "version": "2.2.5",
   "homepage": "https://github.com/hatchddigital/pinmap",
   "author": {
     "name": "Hatchd Digital",
