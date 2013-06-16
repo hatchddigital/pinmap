@@ -142,6 +142,21 @@
     };
 
     /**
+     * Remove an existing pin (if found) from the map mapping
+     * the provided ID.
+     * @param  {string} id Unique pin identifier
+     * @return {null}
+     */
+    PinMap.prototype.removeMarker = function (id) {
+        for (var i = this.available_markers.length - 1; i >= 0; i--) {
+            if (this.available_markers[i].id === id) {
+                this.available_markers[i].setMap(null);
+                this.available_markers.slice(i, 1);
+            }
+        }
+    };
+
+    /**
      * Helper method to use Google Map panTo method.
      * @param  {google.map.LatLng} location Location to move the map to
      * @return null

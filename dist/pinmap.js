@@ -1,4 +1,4 @@
-/*! Pinmap - v2.2.5 - 2013-06-13
+/*! Pinmap - v2.2.6 - 2013-06-16
 * https://github.com/hatchddigital/pinmap
 * Copyright (c) 2013 Hatchd Digital; Licensed MIT */
 
@@ -101,6 +101,21 @@
                 }
             }
         });
+    };
+
+    /**
+     * Remove an existing pin (if found) from the map mapping
+     * the provided ID.
+     * @param  {string} id Unique pin identifier
+     * @return {null}
+     */
+    PinMap.prototype.removeMarker = function (id) {
+        for (var i = this.available_markers.length - 1; i >= 0; i--) {
+            if (this.available_markers[i].id === id) {
+                this.available_markers[i].setMap(null);
+                this.available_markers.slice(i, 1);
+            }
+        }
     };
 
     /**
