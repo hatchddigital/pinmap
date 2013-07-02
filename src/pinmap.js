@@ -134,8 +134,7 @@
                     pinmap.popup.close();
                 }
                 else {
-                    marker.popup.setContent(marker.description);
-                    marker.popup.open(marker.map, marker, pinmap);
+                    pinmap.showMarker(marker);
                 }
             }
         });
@@ -154,6 +153,16 @@
                 this.available_markers.slice(i, 1);
             }
         }
+    };
+
+    /**
+     * Show the provided marker within the pre-set popup.
+     * @param  {google.maps.Marker} marker Marker to show in popup
+     * @return {null}
+     */
+    PinMap.prototype.showMarker = function (marker) {
+        marker.popup.setContent(marker.description);
+        marker.popup.open(marker.map, marker, this);
     };
 
     /**
@@ -191,6 +200,7 @@
         var search_id = settings.id || false
           , search_title = settings.title || false
           , zoom = settings.zoom || false
+          , popup = settings.popup || false
           , pinmap = this;
         // Required settings not provided, return false and do nothing
         if (!search_id && !search_title) {
@@ -202,6 +212,9 @@
                 pinmap.panTo(marker.position);
                 if (zoom) {
                     pinmap.google_map.setZoom(zoom);
+                }
+                if (popup) {
+                    pinmap.showMarker(marker);
                 }
             }
         });
@@ -239,6 +252,7 @@
      */
     PinMap.prototype.locateUser = function (options, callback) {
         var that = this;
+        var deferred = $.Deferred();
         options = $.extend({
             'pan': true,
             'marker': true,
@@ -247,9 +261,11 @@
         callback = callback || false;
         if ('geolocation' in navigator) {
             navigator.geolocation.getCurrentPosition(function (location) {
+                that.user_coordinates = new google.maps.LatLng(
+                    location.coords.latitude, location.coords.longitude);
+                // Resolve .promise() successfull
+                deferred.resolve(that.user_coordinates);
                 if (options.pan) {
-                    that.user_coordinates = new google.maps.LatLng(
-                        location.coords.latitude, location.coords.longitude);
                     that.panTo(that.user_coordinates);
                 }
                 if (options.marker) {
@@ -260,16 +276,22 @@
                     callback(that.user_coordinates, that);
                 }
             }, function (error) {
+                // Reject .promise() error
+                deferred.reject(error);
                 if (callback) {
                     callback(false, that, error);
                 }
             });
         }
         else {
+            var error = 'Device does not support geolocation lookup.';
+            // Reject .promise() error
+            deferred.reject(error);
             if (callback) {
-                callback(false, that, 'Device does not support geolocation lookup.');
+                callback(false, that, error);
             }
         }
+        return deferred;
     };
 
     /**

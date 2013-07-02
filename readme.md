@@ -84,6 +84,9 @@ Jimmy Hillis <jimmy@hatchd.com.au>
 Niaal Holder <niaal@hatchd.com.au>
 
 ## Release History
+v2.2.7 New features include:
+- Adding $.promise to locateUser for nicer callbacks.
+- Added new showMarker() to allow you to show specific marker on the given map
 v2.2.5 Update toggleMarker method, BREAKING changes for better controls
 v2.2.4 New features include:
 - locateUser method for geo-encoding the current user and providing a callback support.
