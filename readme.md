@@ -84,6 +84,7 @@ Jimmy Hillis <jimmy@hatchd.com.au>
 Niaal Holder <niaal@hatchd.com.au>
 
 ## Release History
+v2.2.8 Added new option to center the map on a pin when clicked
 v2.2.7 New features include:
 - Adding $.promise to locateUser for nicer callbacks.
 - Added new showMarker() to allow you to show specific marker on the given map

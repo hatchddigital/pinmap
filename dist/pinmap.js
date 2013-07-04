@@ -1,4 +1,4 @@
-/*! Pinmap - v2.2.7 - 2013-07-02
+/*! Pinmap - v2.2.8 - 2013-07-04
 * https://github.com/hatchddigital/pinmap
 * Copyright (c) 2013 Hatchd Digital; Licensed MIT */
 
@@ -28,12 +28,15 @@
     var PinMap = function (element, options) {
 
         // Preset default options
-        options = $.extend({
+        this.options = $.extend({
             // Perth represent
             latitude: -31.95391,
             longitude: 115.858512,
-            popup: false
+            popup: false,
+            centerOnMarker: true
         }, options);
+
+
 
         // An element must be provided, else fail
         if (!element || !$(element).length) {
@@ -46,8 +49,8 @@
                 zoom: 11,
                 mapTypeId: google.maps.MapTypeId.ROADMAP,
                 center: new google.maps.LatLng(
-                    options.latitude, options.longitude)
-            }, options);
+                    this.options.latitude, this.options.longitude)
+            }, this.options);
 
         // Assign for all DOM related work
         this.$element = $(element);
@@ -63,8 +66,8 @@
         this.available_markers = [];
 
         // Single info window
-        if (options.popup) {
-            this.popup = options.popup;
+        if (this.options.popup) {
+            this.popup = this.options.popup;
         }
 
         return this;
@@ -124,6 +127,10 @@
      */
     PinMap.prototype.showMarker = function (marker) {
         marker.popup.setContent(marker.description);
+        if (this.options.centerOnMarker === true) {
+            this.centerOnMarker({ 'id': marker.id });
+        }
+
         marker.popup.open(marker.map, marker, this);
     };
 
