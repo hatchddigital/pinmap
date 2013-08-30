@@ -40,9 +40,6 @@
  *
  */
 
-/* global google, define */
-/* jshint laxcomma: true, laxbreak: true, camelcase: false */
-
 (function (factory) {
     'use strict';
 
@@ -74,34 +71,29 @@
             centerOnMarker: true
         }, options);
 
-
-
         // An element must be provided, else fail
         if (!element || !$(element).length) {
             return false;
         }
 
-        var
+        // Assign for all DOM related work
+        this.$element = $(element);
+        // Setup an internal available markers on this map
+        this.markers = [];
+
         // Set options for the google map (see Maps API v3.)
-            google_map_options = $.extend({
+        var google_map_options = $.extend({
                 zoom: 11,
                 mapTypeId: google.maps.MapTypeId.ROADMAP,
                 center: new google.maps.LatLng(
                     this.options.latitude, this.options.longitude)
             }, this.options);
 
-        // Assign for all DOM related work
-        this.$element = $(element);
-
-        // Add google map within a wrap div so it doesn't delete
+        // Add wrap element div so it doesn't delete
         // content within the PinMap $element. Important when
         // dealing with popups that are not part of the Google Map
-        var $wrap = $('<div class="gm" style="width:100%;height:100%" />');
+        var $wrap = $('<div class="gm" style="width:100%;height:100%;" />').appendTo(this.$element);
         this.google_map = new google.maps.Map($wrap[0], google_map_options);
-        this.$element.append($wrap);
-
-        // Setup an internal available markers on this map
-        this.available_markers = [];
 
         // Single info window
         if (this.options.popup) {
@@ -117,8 +109,8 @@
      */
     PinMap.prototype.addMarker = function (location, title, id, marker_icon,
                                            description, type) {
-        var pinmap = this,
-            marker = new google.maps.Marker({
+        var that = this;
+        var marker = new google.maps.Marker({
                 position: location,
                 map: this.google_map,
                 title: title,
@@ -129,18 +121,20 @@
         marker.popup = this.popup;
         marker.description = description;
         marker.type = type || {};
-        this.available_markers.push(marker);
+        marker.current = false;
+        this.markers.push(marker);
         // Setup HTML popup for Marker
         google.maps.event.addListener(marker, 'click', function() {
             if (marker.popup) {
-                if (pinmap.popup.getContent() === marker.description) {
-                    pinmap.popup.close();
+                if (that.popup.getContent() === marker.description) {
+                    that.popup.close();
                 }
                 else {
-                    pinmap.showMarker(marker);
+                    that.showMarker(marker);
                 }
             }
         });
+        return marker;
     };
 
     /**
@@ -150,10 +144,12 @@
      * @return {null}
      */
     PinMap.prototype.removeMarker = function (id) {
-        for (var i = this.available_markers.length - 1; i >= 0; i--) {
-            if (this.available_markers[i].id === id) {
-                this.available_markers[i].setMap(null);
-                this.available_markers.slice(i, 1);
+        var i;
+        for (i = this.markers.length - 1; i >= 0; i--) {
+            if (this.markers[i].id === id) {
+                this.markers[i].current = false;
+                this.markers[i].setMap(null);
+                this.markers.slice(i, 1);
             }
         }
     };
@@ -168,8 +164,49 @@
         if (this.options.centerOnMarker === true) {
             this.centerOnMarker({ 'id': marker.id });
         }
-
+        // Wipe any other current marker
+        for (var i = this.markers.length - 1; i >= 0; i--) {
+            this.markers[i].current = false;
+        }
+        marker.current = true;
         marker.popup.open(marker.map, marker, this);
+    };
+
+    PinMap.prototype.nextMarker = function () {
+        var that = this;
+        var i;
+        // Find the current marker
+        for (i = 0; i < this.markers.length; i++) {
+            if (this.markers[i].current) {
+                return (typeof this.markers[i + 1] !== "undefined") ?
+                    this.markers[i + 1] : this.markers[0];
+            }
+        }
+    };
+
+    PinMap.prototype.nextMarker = function () {
+        var that = this;
+        var i;
+        // Find the current marker
+        for (i = 0; i < this.markers.length; i++) {
+            if (this.markers[i].current) {
+                return (typeof this.markers[i + 1] !== "undefined") ?
+                    this.markers[i + 1] : this.markers[0];
+            }
+        }
+    };
+
+    PinMap.prototype.previousMarker = function () {
+        var that = this;
+        var i;
+        // Find the current marker
+        for (i = 0; i < this.markers.length; i++) {
+            if (this.markers[i].current) {
+                return (typeof this.markers[i - 1] !== "undefined") ?
+                    this.markers[i - 1] :
+                    this.markers[this.markers.length-1];
+            }
+        }
     };
 
     /**
@@ -204,24 +241,24 @@
      * user event (like a click) passing the ID or title
      */
     PinMap.prototype.centerOnMarker = function (settings) {
-        var search_id = settings.id || false
-          , search_title = settings.title || false
-          , zoom = settings.zoom || false
-          , popup = settings.popup || false
-          , pinmap = this;
+        var search_id = settings.id || false;
+        var search_title = settings.title || false;
+        var zoom = settings.zoom || false;
+        var popup = settings.popup || false;
+        var that = this;
         // Required settings not provided, return false and do nothing
         if (!search_id && !search_title) {
             return false;
         }
         // Search for the provided marker by title and ID and center
-        $.each(this.available_markers, function(index, marker) {
+        $.each(this.markers, function (index, marker) {
             if (marker.title === search_title || marker.id === search_id) {
-                pinmap.panTo(marker.position);
+                that.panTo(marker.position);
                 if (zoom) {
-                    pinmap.google_map.setZoom(zoom);
+                    that.google_map.setZoom(zoom);
                 }
                 if (popup) {
-                    pinmap.showMarker(marker);
+                    that.showMarker(marker);
                 }
             }
         });
@@ -233,7 +270,7 @@
      */
     PinMap.prototype.toggleMarkers = function (type, action) {
         type = type || false;
-        $.each(this.available_markers, function(index, marker) {
+        $.each(this.markers, function(index, marker) {
             if (type && marker.type === type) {
                 if (typeof action === 'boolean') {
                     marker.setVisible(action);
@@ -345,10 +382,10 @@
         options = options || {};
         callback = typeof callback === 'function' ? callback : false;
         this.each(function() {
-            var $this = $(this)
-              , geocoder = new google.maps.Geocoder()
-              , pinmap = $this.data('pinmap')
-              , address = (($this.attr('data-address') !== undefined) ?
+            var $this = $(this);
+            var geocoder = new google.maps.Geocoder();
+            var pinmap = $this.data('pinmap');
+            var address = (($this.attr('data-address') !== undefined) ?
                               $this.attr('data-address') : false);
             // If we can't find an existing map, create and store
             if (!pinmap) {
