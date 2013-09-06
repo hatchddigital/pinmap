@@ -140,8 +140,8 @@
     /**
      * Remove an existing pin (if found) from the map mapping
      * the provided ID.
-     * @param  {string} id Unique pin identifier
-     * @return {null}
+     * @param string id Unique pin identifier
+     * @return void
      */
     PinMap.prototype.removeMarker = function (id) {
         var i;
@@ -156,8 +156,8 @@
 
     /**
      * Show the provided marker within the pre-set popup.
-     * @param  {google.maps.Marker} marker Marker to show in popup
-     * @return {null}
+     * @param google.maps.Marker marker Marker to show in popup
+     * @return void
      */
     PinMap.prototype.showMarker = function (marker) {
         marker.popup.setContent(marker.description);
@@ -211,7 +211,7 @@
 
     /**
      * Helper method to use Google Map panTo method.
-     * @param  {google.map.LatLng} location Location to move the map to
+     * @param google.map.LatLng location Location to move the map to
      * @return null
      */
     PinMap.prototype.panTo = function(location) {
@@ -234,6 +234,19 @@
         };
         ov.draw = function() {};
         ov.setMap(map);
+    };
+
+    /**
+     * Return a marker based on the ID value provided.
+     * @param string The ID of the marker to be returned
+     * @return google.maps.Marker
+     */
+    PinMap.prototype.findMarker = function (id) {
+        for (var i = this.markers.length - 1; i >= 0; i--) {
+            if (this.markers[i].id === id) {
+                return this.markers[i];
+            }
+        };
     };
 
     /**
@@ -292,7 +305,7 @@
      * > Icon: if Marker is True use provided image URL as icon for user's
      *         current location
      *
-     * @return {null}
+     * @return void
      */
     PinMap.prototype.locateUser = function (options, callback) {
         var that = this;
@@ -352,7 +365,6 @@
      * - Android Browser
      * - Android Chrome
      */
-
     PinMap.prototype.buildDirectionsUrl = function (source, destination) {
         var directions_url = 'http://maps.apple.com';
         if (!source && !destination) {
@@ -375,8 +387,8 @@
      * > var map = $('#element_id').map({ ... });
      * > map.addMarker({ ... });
      *
-     * @param {object} options Key/pair options to be use on a Google Map
-     *                         as described http://goo.gl/PwWXs
+     * @param object options Key/pair options to be use on a Google Map
+     *                       as described http://goo.gl/PwWXs
      */
     $.fn.pinmap = function(options, callback) {
         options = options || {};
