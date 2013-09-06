@@ -172,6 +172,17 @@
         marker.popup.open(marker.map, marker, this);
     };
 
+    PinMap.prototype.currentMarker = function () {
+        var that = this;
+        var i;
+        for (i = 0; i < this.markers.length; i++) {
+            if (this.markers[i].current) {
+                return this.markers[i];
+            }
+        }
+        return null;
+    };
+
     PinMap.prototype.nextMarker = function () {
         var that = this;
         var i;
