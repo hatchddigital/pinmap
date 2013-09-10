@@ -76,6 +76,9 @@
             return false;
         }
 
+        // Event bindings
+        this._bindEvents(this.options);
+
         // Assign for all DOM related work
         this.$element = $(element);
         // Setup an internal available markers on this map
@@ -103,6 +106,10 @@
         return this;
     };
 
+    PinMap.prototype._bindEvents = function (options) {
+        this.onMarkerClick = options.onMarkerClick || null;
+    }
+
     /**
      * Puts a pin on the map with the provided details. Returns the
      * Google Map object for chaining.
@@ -123,10 +130,28 @@
         marker.type = type || {};
         marker.current = false;
         this.markers.push(marker);
-        // Setup HTML popup for Marker
-        google.maps.event.addListener(marker, 'click', function() {
-            if (marker.popup) {
-                if (that.popup.getContent() === marker.description) {
+        // Setup click callback for each marker on the map
+        this._bindMarkerEvents(marker);
+        return marker;
+    };
+
+    /**
+     * Bind events to each new marker element.
+     *
+     * @param {google.maps.Marker} marker A new marker object to bind against
+     * @return void
+     */
+    PinMap.prototype._bindMarkerEvents = function (marker) {
+        var that = this;
+        // Use custom provided event or default pop show/hide events
+        google.maps.event.addListener(marker, 'click', function () {
+            // Run custom code for onClick event
+            if (typeof that.onMarkerClick === 'function') {
+                that.onMarkerClick.call(this, that, marker);
+            }
+            // Toggle the popup on or off as required
+            else if (marker.popup) {
+                if (that.popup.id === marker.id) {
                     that.popup.close();
                 }
                 else {
@@ -134,12 +159,11 @@
                 }
             }
         });
-        return marker;
     };
 
     /**
-     * Remove an existing pin (if found) from the map mapping
-     * the provided ID.
+     * Remove an existing pin (if found) from the map mapping the provided ID.
+     *
      * @param string id Unique pin identifier
      * @return void
      */
