@@ -139,7 +139,7 @@
      * Bind events to each new marker element.
      *
      * @param {google.maps.Marker} marker A new marker object to bind against
-     * @return void
+     * @return null
      */
     PinMap.prototype._bindMarkerEvents = function (marker) {
         var that = this;
@@ -165,7 +165,7 @@
      * Remove an existing pin (if found) from the map mapping the provided ID.
      *
      * @param string id Unique pin identifier
-     * @return void
+     * @return null
      */
     PinMap.prototype.removeMarker = function (id) {
         var i;
@@ -179,9 +179,26 @@
     };
 
     /**
+     * Clear all current pins from the map, optionally you can
+     * remove only a specific group of pins.
+     *
+     * @param {string} type null for all pins, a string for a specific group
+     * @return null
+     */
+    PinMap.prototype.clearMarkers = function(type) {
+        var that = this;
+        type = type || false;
+        $.each(this.markers, function(index, marker) {
+            if (!type || marker.type === type) {
+                that.removeMarker(marker);
+            }
+        });
+    };
+
+    /**
      * Show the provided marker within the pre-set popup.
      * @param google.maps.Marker marker Marker to show in popup
-     * @return void
+     * @return null
      */
     PinMap.prototype.showMarker = function (marker) {
         marker.popup.setContent(marker.description);
@@ -340,7 +357,7 @@
      * > Icon: if Marker is True use provided image URL as icon for user's
      *         current location
      *
-     * @return void
+     * @return null
      */
     PinMap.prototype.locateUser = function (options, callback) {
         var that = this;
