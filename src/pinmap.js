@@ -190,7 +190,7 @@
         type = type || false;
         $.each(this.markers, function(index, marker) {
             if (!type || marker.type === type) {
-                that.removeMarker(marker);
+                that.removeMarker(marker.id);
             }
         });
     };
