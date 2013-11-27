@@ -115,7 +115,7 @@
      * Google Map object for chaining.
      */
     PinMap.prototype.addMarker = function (location, title, id, marker_icon,
-                                           description, type) {
+                                           description, type, visible) {
         var that = this;
         var marker = new google.maps.Marker({
                 position: location,
@@ -124,11 +124,15 @@
                 icon: marker_icon,
                 optimized: false
             });
+        // Marker is visible if anything other than false, ie. undefined or true
+        visible = visible !== false;
+
         marker.id = id;
         marker.popup = this.popup;
         marker.description = description;
         marker.type = type || {};
         marker.current = false;
+        marker.visible = visible;
         this.markers.push(marker);
         // Setup click callback for each marker on the map
         this._bindMarkerEvents(marker);
